@@ -26,7 +26,7 @@ BISINDO_CLASS_NAMES_PATH = os.path.join('data_bisindo', 'class_names.txt')
 
 IMAGE_HEIGHT, IMAGE_WIDTH, NUM_LANDMARK_FEATURES = 224, 224, 42
 
-# --- Pemuatan Model ---
+# --- Pemuatan Model Bahasa Isyarat ---
 def load_tf_model(path, type_name):
     try:
         model = tf.keras.models.load_model(path)
@@ -51,14 +51,16 @@ sibi_class_names = load_class_names(SIBI_CLASS_NAMES_PATH, "SIBI")
 bisindo_model = load_tf_model(BISINDO_MODEL_PATH, "BISINDO")
 bisindo_class_names = load_class_names(BISINDO_CLASS_NAMES_PATH, "BISINDO")
 
-stt_pipeline = None
-try:
-    print("Memuat pipeline Whisper (STT) dari Hugging Face...")
-    # --- MENGGUNAKAN MODEL 'whisper-base' YANG LEBIH RINGAN ---
-    stt_pipeline = pipeline("automatic-speech-recognition", model="openai/whisper-base")
-    print("Pipeline Whisper (STT) 'base' berhasil dimuat.")
-except Exception as e:
-    print(f"Gagal memuat pipeline Whisper: {e}")
+
+# --- PEMUATAN MODEL STT DINONAKTIFKAN ---
+# stt_pipeline = None
+# try:
+#     print("Memuat pipeline Whisper (STT) dari Hugging Face...")
+#     stt_pipeline = pipeline("automatic-speech-recognition", model="openai/whisper-base")
+#     print("Pipeline Whisper (STT) 'base' berhasil dimuat.")
+# except Exception as e:
+#     print(f"Gagal memuat pipeline Whisper: {e}")
+
 
 # --- Inisialisasi MediaPipe ---
 mp_hands = mp.solutions.hands
@@ -89,20 +91,12 @@ def process_frame_for_hybrid_model(img_bgr, hands_detector):
     img_input = np.expand_dims(img_normalized, axis=0)
     return img_input, landmark_input
 
-# --- ENDPOINT HTTP UNTUK TRANSKRIPSI AUDIO ---
-@app.post("/transcribe")
-async def transcribe_audio(audio_file: UploadFile = File(...)):
-    if not stt_pipeline:
-        return {"error": "Model Speech-to-Text tidak tersedia di server."}
-    try:
-        content = await audio_file.read()
-        result = stt_pipeline(content, generate_kwargs={"language": "indonesian"})
-        transcribed_text = result.get("text", "")
-        print(f"Hasil Transkripsi: {transcribed_text}")
-        return {"transcription": transcribed_text}
-    except Exception as e:
-        print(f"Error saat transkripsi: {e}")
-        return {"error": "Gagal melakukan transkripsi."}
+
+# --- ENDPOINT TRANSKRIPSI AUDIO DINONAKTIFKAN ---
+# @app.post("/transcribe")
+# async def transcribe_audio(audio_file: UploadFile = File(...)):
+#     # ... Logika STT dinonaktifkan ...
+#     return {"error": "Fitur Speech-to-Text tidak aktif."}
 
 
 # --- ENDPOINT WEBSOCKET UNTUK DETEKSI BAHASA ISYARAT ---
