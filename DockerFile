@@ -1,0 +1,21 @@
+# Menggunakan base image Python 3.9
+FROM python:3.9-slim
+
+# Menetapkan direktori kerja di dalam container
+WORKDIR /app
+
+# Menyalin file requirements terlebih dahulu untuk caching
+COPY ./backend/requirements.txt .
+
+# Menginstal dependency
+RUN pip install --no-cache-dir --upgrade pip && pip install -r requirements.txt
+
+# Menyalin seluruh isi proyek ke dalam container
+COPY . .
+
+# Memberitahu container untuk membuka port 8001
+EXPOSE 8001
+
+# Perintah untuk menjalankan aplikasi saat container dimulai
+# Bekerja dari dalam folder /app, jadi kita panggil dari backend
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8001"]
