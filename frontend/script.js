@@ -1,6 +1,3 @@
-// frontend/script.js (Final - Tanpa Fitur Speech-to-Text)
-
-// --- Deklarasi Elemen DOM ---
 const video = document.getElementById('webcam');
 const messageBox = document.getElementById('message-box');
 const detectBtn = document.getElementById('detect-btn');
@@ -12,7 +9,6 @@ const modelSelect = document.getElementById('model-select');
 
 const dictionary = ['halo', 'apa', 'kabar', 'terima', 'kasih', 'selamat', 'datang', 'sampai', 'jumpa', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
-// --- Konfigurasi dan State Aplikasi ---
 let socket = null;
 let isDetecting = false;
 let signDetectionInterval;
