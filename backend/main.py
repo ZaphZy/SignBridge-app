@@ -1,4 +1,4 @@
-# backend/main.py (Menggunakan whisper-small untuk akurasi lebih tinggi)
+# backend/main.py (Final - Tanpa Fitur Speech-to-Text)
 
 import os
 import cv2
@@ -9,7 +9,6 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 import base64
 import json
-from transformers import pipeline
 
 # --- Inisialisasi Aplikasi ---
 app = FastAPI()
@@ -18,11 +17,11 @@ app.add_middleware(
     allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"]
 )
 
-# --- Konfigurasi Path dan Model ---
-SIBI_MODEL_PATH = os.path.join('models_sibi', 'final_hybrid_sign_language_model_augmented_sibi.h5')
-SIBI_CLASS_NAMES_PATH = os.path.join('data_sibi', 'class_names.txt')
-BISINDO_MODEL_PATH = os.path.join('models_bisindo', 'final_hybrid_sign_language_model_augmented_bisindo.h5') 
-BISINDO_CLASS_NAMES_PATH = os.path.join('data_bisindo', 'class_names.txt')
+# --- Konfigurasi Path dan Model Bahasa Isyarat ---
+SIBI_MODEL_PATH = os.path.join('models_hybrid', 'final_hybrid_sign_language_model_augmented.h5')
+SIBI_CLASS_NAMES_PATH = os.path.join('processed_hybrid_data', 'class_names.txt')
+BISINDO_MODEL_PATH = os.path.join('models_bisindo', 'bisindo_model.h5')
+BISINDO_CLASS_NAMES_PATH = os.path.join('data_bisindo', 'bisindo_class_names.txt')
 
 IMAGE_HEIGHT, IMAGE_WIDTH, NUM_LANDMARK_FEATURES = 224, 224, 42
 
@@ -50,17 +49,6 @@ sibi_model = load_tf_model(SIBI_MODEL_PATH, "SIBI")
 sibi_class_names = load_class_names(SIBI_CLASS_NAMES_PATH, "SIBI")
 bisindo_model = load_tf_model(BISINDO_MODEL_PATH, "BISINDO")
 bisindo_class_names = load_class_names(BISINDO_CLASS_NAMES_PATH, "BISINDO")
-
-
-# --- PEMUATAN MODEL STT DINONAKTIFKAN ---
-# stt_pipeline = None
-# try:
-#     print("Memuat pipeline Whisper (STT) dari Hugging Face...")
-#     stt_pipeline = pipeline("automatic-speech-recognition", model="openai/whisper-base")
-#     print("Pipeline Whisper (STT) 'base' berhasil dimuat.")
-# except Exception as e:
-#     print(f"Gagal memuat pipeline Whisper: {e}")
-
 
 # --- Inisialisasi MediaPipe ---
 mp_hands = mp.solutions.hands
@@ -90,14 +78,6 @@ def process_frame_for_hybrid_model(img_bgr, hands_detector):
     img_normalized = img_resized.astype('float32') / 255.0
     img_input = np.expand_dims(img_normalized, axis=0)
     return img_input, landmark_input
-
-
-# --- ENDPOINT TRANSKRIPSI AUDIO DINONAKTIFKAN ---
-# @app.post("/transcribe")
-# async def transcribe_audio(audio_file: UploadFile = File(...)):
-#     # ... Logika STT dinonaktifkan ...
-#     return {"error": "Fitur Speech-to-Text tidak aktif."}
-
 
 # --- ENDPOINT WEBSOCKET UNTUK DETEKSI BAHASA ISYARAT ---
 @app.websocket("/ws/{mode}")
