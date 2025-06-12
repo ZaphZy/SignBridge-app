@@ -28,7 +28,7 @@ IMAGE_HEIGHT, IMAGE_WIDTH, NUM_LANDMARK_FEATURES = 224, 224, 42
 # --- Pemuatan Model Bahasa Isyarat ---
 def load_tf_model(path, type_name):
     try:
-        model = tf.keras.models.load_model(path)
+        model = tf.keras.models.load_model(path, compile=False) # Menambahkan compile=False untuk stabilitas
         print(f"Model {type_name} berhasil dimuat.")
         return model
     except Exception as e:
