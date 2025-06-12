@@ -19,7 +19,7 @@ app.add_middleware(
 
 # --- Konfigurasi Path dan Model Bahasa Isyarat ---
 SIBI_MODEL_PATH = os.path.join('models_sibi', 'final_hybrid_sign_language_model_augmented_sibi.h5')
-SIBI_CLASS_NAMES_PATH = os.path.join('_sibi', 'class_names.txt')
+SIBI_CLASS_NAMES_PATH = os.path.join('data_sibi', 'class_names.txt')
 BISINDO_MODEL_PATH = os.path.join('models_bisindo', 'final_hybrid_sign_language_model_augmented_bisindo.h5')
 BISINDO_CLASS_NAMES_PATH = os.path.join('data_bisindo', 'class_names.txt')
 
