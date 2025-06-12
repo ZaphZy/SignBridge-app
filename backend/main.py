@@ -18,10 +18,10 @@ app.add_middleware(
 )
 
 # --- Konfigurasi Path dan Model Bahasa Isyarat ---
-SIBI_MODEL_PATH = os.path.join('models_hybrid', 'final_hybrid_sign_language_model_augmented.h5')
-SIBI_CLASS_NAMES_PATH = os.path.join('processed_hybrid_data', 'class_names.txt')
-BISINDO_MODEL_PATH = os.path.join('models_bisindo', 'bisindo_model.h5')
-BISINDO_CLASS_NAMES_PATH = os.path.join('data_bisindo', 'bisindo_class_names.txt')
+SIBI_MODEL_PATH = os.path.join('models_sibi', 'final_hybrid_sign_language_model_augmented_sibi.h5')
+SIBI_CLASS_NAMES_PATH = os.path.join('_sibi', 'class_names.txt')
+BISINDO_MODEL_PATH = os.path.join('models_bisindo', 'final_hybrid_sign_language_model_augmented_bisindo.h5')
+BISINDO_CLASS_NAMES_PATH = os.path.join('data_bisindo', 'class_names.txt')
 
 IMAGE_HEIGHT, IMAGE_WIDTH, NUM_LANDMARK_FEATURES = 224, 224, 42
 
