@@ -1,3 +1,6 @@
+// frontend/script.js (Final - URL Backend Diperbaiki)
+
+// --- Deklarasi Elemen DOM ---
 const video = document.getElementById('webcam');
 const messageBox = document.getElementById('message-box');
 const detectBtn = document.getElementById('detect-btn');
@@ -9,10 +12,14 @@ const modelSelect = document.getElementById('model-select');
 
 const dictionary = ['halo', 'apa', 'kabar', 'terima', 'kasih', 'selamat', 'datang', 'sampai', 'jumpa', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+// --- Konfigurasi dan State Aplikasi ---
 let socket = null;
 let isDetecting = false;
 let signDetectionInterval;
-const BASE_BACKEND_URL = "wss://signbridge-app-backend.onrender.com/ws"; // Ganti dengan URL Render Anda saat deploy
+
+// ### BARIS YANG DIPERBAIKI ###
+// Pastikan Anda mengganti URL ini dengan URL backend Render Anda yang sebenarnya.
+const BASE_BACKEND_URL = "wss://signbridge-app-backend.onrender.com/ws"; 
 
 const captureCanvas = document.createElement('canvas');
 const captureCtx = captureCanvas.getContext('2d');
@@ -48,11 +55,10 @@ function showDetectedWord(word) {
 function toggleDetection() {
     if (!isDetecting) {
         const selectedModel = modelSelect.value;
-        // Pada saat deploy, ganti "localhost:8001" dengan URL dari Render
-        const backendUrlWithMode = `ws://localhost:8001/ws/${selectedModel}`; 
-        // CONTOH DEPLOY: const backendUrlWithMode = `wss://nama-anda.onrender.com/ws/${selectedModel}`;
+        // Menggunakan konstanta yang sudah benar untuk membentuk URL
+        const backendUrlWithMode = `${BASE_BACKEND_URL}/${selectedModel}`;
         
-        console.log(`Menghubungkan ke: ${backendUrlWithMode}`);
+        console.log(`Menghubungkan ke: ${backendUrlWithMode}`); // Ini akan menampilkan URL Render sekarang
         socket = new WebSocket(backendUrlWithMode);
 
         socket.onopen = () => {
