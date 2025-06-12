@@ -16,7 +16,7 @@ const dictionary = ['halo', 'apa', 'kabar', 'terima', 'kasih', 'selamat', 'datan
 let socket = null;
 let isDetecting = false;
 let signDetectionInterval;
-const BASE_BACKEND_URL = "ws://localhost:8001/ws"; // Ganti dengan URL Render Anda saat deploy
+const BASE_BACKEND_URL = "wss://signbridge-app-backend.onrender.com/ws"; // Ganti dengan URL Render Anda saat deploy
 
 const captureCanvas = document.createElement('canvas');
 const captureCtx = captureCanvas.getContext('2d');
