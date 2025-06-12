@@ -19,7 +19,7 @@ let signDetectionInterval;
 
 // ### BARIS YANG DIPERBAIKI ###
 // Pastikan Anda mengganti URL ini dengan URL backend Render Anda yang sebenarnya.
-const BASE_BACKEND_URL = "wss://signbridge-app-backend.onrender.com/ws"; 
+const BASE_BACKEND_URL = "wss://signbridge-app.onrender.com/ws"; 
 
 const captureCanvas = document.createElement('canvas');
 const captureCtx = captureCanvas.getContext('2d');
